@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.starwars.R
-import com.android.starwars.ui.interfaces.IMainNavigation
 import com.android.starwars.ui.theme.StarWarsTheme
 import com.android.starwars.utils.rememberFlowWithLifecycle
 
@@ -32,7 +31,7 @@ import com.android.starwars.utils.rememberFlowWithLifecycle
 @Composable
 fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
-    iMainNavigation: IMainNavigation
+    onNavigationRequested: (navigationEffect: SplashContract.Effect.Navigation) -> Unit,
 ) {
 
     val effetct = rememberFlowWithLifecycle(viewModel.effect)
@@ -41,7 +40,8 @@ fun SplashScreen(
         effetct.collect {
             when (it) {
                 is SplashContract.Effect.Navigation.ToSearchScreen -> {
-                    iMainNavigation.navigateToSearchScreen()
+                    onNavigationRequested(SplashContract.Effect.Navigation.ToSearchScreen)
+//                    onNavigationRequested.invoke()
                 }
             }
         }
