@@ -10,12 +10,16 @@ data class DetailResponseModel (
     @Json(name = "height") val height : String,
     @Json(name = "birth_year") val birthYear : String,
     @Json(name = "species") val species : List<String>,
-    @Json(name = "homeworld") val homeworld : String)
+    @Json(name = "homeworld") val homeworld : String,
+    @Json(name = "films") val films : List<String>
+)
+
 
 val defaultDetailModel = DetailResponseModel(
     name = "",
     height = "",
     birthYear = "",
     species = emptyList(),
-    homeworld = ""
+    homeworld = "",
+    films = emptyList()
 )

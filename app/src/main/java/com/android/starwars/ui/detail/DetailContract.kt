@@ -1,8 +1,8 @@
 package com.android.starwars.ui.detail
 
 import com.android.starwars.data.model.DetailResponseModel
+import com.android.starwars.ui.detail.composables.Films
 import com.android.starwars.data.model.PlanetResponseModel
-import com.android.starwars.data.model.SearchResponseModel
 import com.android.starwars.data.model.SpeciesResponseModel
 import com.android.starwars.ui.base.ViewEffect
 import com.android.starwars.ui.base.ViewEvent
@@ -22,7 +22,8 @@ class DetailContract {
         val errorMessage: String?,
         val detail: DetailResponseModel,
         val planet : PlanetResponseModel,
-        val species: SpeciesResponseModel
+        val species: SpeciesResponseModel,
+        val films : Films
     ) : ViewState
     sealed class Effect : ViewEffect {
         sealed class Navigation : Effect() {

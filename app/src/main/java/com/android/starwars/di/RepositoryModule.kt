@@ -2,10 +2,12 @@ package com.android.starwars.di
 
 import com.android.starwars.data.ApiServices
 import com.android.starwars.data.repository.DetailRepositoryImp
+import com.android.starwars.data.repository.FilmRepositoryImp
 import com.android.starwars.data.repository.PlanetRepositoryImp
 import com.android.starwars.data.repository.SearchRepositoryImp
 import com.android.starwars.data.repository.SpeciesRepositoryImp
 import com.android.starwars.domain.repository.IDetailRepository
+import com.android.starwars.domain.repository.IFilmRepository
 import com.android.starwars.domain.repository.IPlanetRepository
 import com.android.starwars.domain.repository.ISearchRepository
 import com.android.starwars.domain.repository.ISpeciesRepository
@@ -42,6 +44,12 @@ class RepositoryModule {
     @Singleton
     fun provideSpeciesRepository(api: ApiServices): ISpeciesRepository {
         return SpeciesRepositoryImp(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilmRepository(api: ApiServices): IFilmRepository {
+        return FilmRepositoryImp(api)
     }
 
 }

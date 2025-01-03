@@ -1,6 +1,7 @@
 package com.android.starwars.data
 
 import com.android.starwars.data.model.DetailResponseModel
+import com.android.starwars.ui.detail.composables.FilmResponseModel
 import com.android.starwars.data.model.PlanetResponseModel
 import com.android.starwars.data.model.SearchResponseModel
 import com.android.starwars.data.model.SpeciesResponseModel
@@ -31,4 +32,9 @@ interface ApiServices {
     suspend fun species(
         @Path("id") id: Int,
     ): Response<SpeciesResponseModel>
+
+    @GET("films/{id}")
+    suspend fun film(
+        @Path("id") id: Int,
+    ): Response<FilmResponseModel>
 }
