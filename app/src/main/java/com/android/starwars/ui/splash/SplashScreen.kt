@@ -41,7 +41,6 @@ fun SplashScreen(
             when (it) {
                 is SplashContract.Effect.Navigation.ToSearchScreen -> {
                     onNavigationRequested(SplashContract.Effect.Navigation.ToSearchScreen)
-//                    onNavigationRequested.invoke()
                 }
             }
         }

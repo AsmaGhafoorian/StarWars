@@ -25,7 +25,12 @@ class SearchViewModel @Inject constructor( private val searchCharacterUseCase: S
 
         when (event) {
             is SearchContract.Event.onCharacterClick -> {
-                setEffect { SearchContract.Effect.Navigation.ToDetailScreen }
+                val url = event.character.url
+                val lastSlashIndex = url.lastIndexOf("/")
+                val secondLastSlashIndex = url.lastIndexOf("/", lastSlashIndex - 1)
+                val id = url.substring(secondLastSlashIndex + 1, lastSlashIndex)
+
+                setEffect { SearchContract.Effect.Navigation.ToDetailScreen(id.toInt()) }
             }
 
             is SearchContract.Event.search -> {
