@@ -6,6 +6,7 @@ import com.android.starwars.data.model.SearchResponseModel
 import com.android.starwars.data.network.CustomResult
 import com.android.starwars.domain.usecase.SearchCharacterUseCase
 import com.android.starwars.ui.base.BaseViewModel
+import com.android.starwars.utils.getId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +26,8 @@ class SearchViewModel @Inject constructor( private val searchCharacterUseCase: S
 
         when (event) {
             is SearchContract.Event.onCharacterClick -> {
-                val url = event.character.url
-                val lastSlashIndex = url.lastIndexOf("/")
-                val secondLastSlashIndex = url.lastIndexOf("/", lastSlashIndex - 1)
-                val id = url.substring(secondLastSlashIndex + 1, lastSlashIndex)
 
-                setEffect { SearchContract.Effect.Navigation.ToDetailScreen(id.toInt()) }
+                setEffect { SearchContract.Effect.Navigation.ToDetailScreen(getId(event.character.url)) }
             }
 
             is SearchContract.Event.search -> {

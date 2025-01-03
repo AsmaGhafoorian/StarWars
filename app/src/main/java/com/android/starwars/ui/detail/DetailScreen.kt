@@ -39,6 +39,8 @@ fun DetailScreen(
 ) {
     val state = viewModel.viewState.collectAsStateWithLifecycle()
     val data = state.value.detail
+    val species = state.value.species
+    val planet = state.value.planet
 
     LaunchedEffect(Unit) {
         viewModel.setEvent(DetailContract.Event.getCharacterDetail(id = id))
@@ -69,7 +71,8 @@ fun DetailScreen(
         }
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             item {
-                Column(modifier = Modifier.fillMaxWidth()
+                Column(modifier = Modifier
+                    .fillMaxWidth()
                     .padding(10.dp)) {
                     Image(
                         painter = painterResource(R.drawable.default_character_img),
@@ -97,7 +100,8 @@ fun DetailScreen(
                 )
             }
             item {
-                Column(modifier = Modifier.fillMaxWidth()
+                Column(modifier = Modifier
+                    .fillMaxWidth()
                     .padding(10.dp)) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(
@@ -132,7 +136,7 @@ fun DetailScreen(
 
                             )
                             Text(
-                                text = data.height,
+                                text = "${data.height} cm",
                                 fontSize = 14.sp,
                                 fontStyle = FontStyle.Normal,
                                 fontWeight = FontWeight.Normal
@@ -140,7 +144,9 @@ fun DetailScreen(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp).fillMaxWidth())
+                    Spacer(modifier = Modifier
+                        .height(10.dp)
+                        .fillMaxWidth())
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -159,7 +165,7 @@ fun DetailScreen(
 
                             )
                             Text(
-                                text = data.birthYear,
+                                text = species.language,
                                 fontSize = 14.sp,
                                 fontStyle = FontStyle.Normal,
                                 fontWeight = FontWeight.Normal
@@ -178,7 +184,7 @@ fun DetailScreen(
 
                             )
                             Text(
-                                text = data.height,
+                                text = planet.population,
                                 fontSize = 14.sp,
                                 fontStyle = FontStyle.Normal,
                                 fontWeight = FontWeight.Normal
