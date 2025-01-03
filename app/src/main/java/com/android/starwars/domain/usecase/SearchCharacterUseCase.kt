@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class SearchCharacterUseCase @Inject constructor( private val iSearchRepository: ISearchRepository) {
 
-    suspend fun search(query: String) : Flow<CustomResult<SearchResponseModel>>
-    = iSearchRepository.searchCharacter(query)
+    suspend fun search(query: String, reset: Boolean) : Flow<CustomResult<SearchResponseModel>>
+    = iSearchRepository.searchCharacter(query, reset)
 }

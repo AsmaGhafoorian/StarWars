@@ -9,6 +9,7 @@ interface ApiServices {
 
     @GET("people")
     suspend fun searchCharacter(
-        @Query("search") query: String
+        @Query("search") query: String,
+        @Query("page") page: Int,
     ): Response<SearchResponseModel>
 }

@@ -11,13 +11,14 @@ class SearchContract {
 
     sealed class Event : ViewEvent {
         object onCharacterClick : Event()
+        data class search(val query : String, val reset: Boolean) : Event()
     }
 
     data class State(
         val searchResult: SearchResponseModel,
         val isLoading: Boolean,
         val isError: Boolean,
-        val errorMessage: String
+        val errorMessage: String?
     ) : ViewState
 
     sealed class Effect : ViewEffect {

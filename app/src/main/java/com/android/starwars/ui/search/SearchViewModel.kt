@@ -1,6 +1,7 @@
 package com.android.starwars.ui.search
 
 import androidx.lifecycle.viewModelScope
+import com.android.starwars.data.model.Characters
 import com.android.starwars.data.model.SearchResponseModel
 import com.android.starwars.data.network.CustomResult
 import com.android.starwars.domain.usecase.SearchCharacterUseCase
@@ -26,27 +27,35 @@ class SearchViewModel @Inject constructor( private val searchCharacterUseCase: S
             is SearchContract.Event.onCharacterClick -> {
                 setEffect { SearchContract.Effect.Navigation.ToDetailScreen }
             }
+
+            is SearchContract.Event.search -> {
+                searchCharacter(query = event.query, reset = event.reset)
+            }
         }
     }
 
-    init {
+    fun searchCharacter(query: String, reset: Boolean) {
         viewModelScope.launch {
-            searchCharacterUseCase.search("re").collect{
+            searchCharacterUseCase.search(query = query, reset = reset).collect{
                 when (it) {
                     is CustomResult.Loading -> {
-                        println("loadinnggg")
+
+                        setState{viewState.value.copy(isLoading = true)}
                     }
 
                     is CustomResult.Error -> {
-                        println("errorrr: " + it.exception)
+                        setState{viewState.value.copy(isLoading = false, isError = true, errorMessage = it.exception.message)}
                     }
 
                     is CustomResult.Empty -> {
-                       println("Emptyyy: " + it.toString())
+
                     }
 
                     is CustomResult.Success<*> -> {
-                        println("dataaa: " + it.data)
+                        var result = ArrayList<Characters>()
+                        viewState.value.searchResult.results?.let { it1 -> result.addAll(it1) }
+                        (it.data as SearchResponseModel).results?.let { it1 -> result.addAll(it1) }
+                        setState { viewState.value.copy(searchResult = SearchResponseModel(results = result)) }
 
                     }
                 }

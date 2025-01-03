@@ -6,7 +6,6 @@ inline fun <T> withResponse(function: () -> Response<T>): CustomResult<T> {
     return try {
         when (val response = ApiResponse.create(function.invoke())) {
             is SuccessResponse -> {
-                println("aaaaaaa: " + response.body)
                 CustomResult.Success(response.body)
             }
             is ErrorResponse -> when (response.errorCode) {

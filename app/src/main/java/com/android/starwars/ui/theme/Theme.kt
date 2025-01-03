@@ -16,7 +16,13 @@ private val LightColorScheme = lightColorScheme(
     secondary = secondary,
     tertiary = tertiary,
     onSecondary = onSecondary,
-    onPrimary = onPrimary
+    onPrimary = onPrimary,
+    inverseSurface = inverseSurface,
+    inverseOnSurface = onInverseSurface,
+    outline = outline,
+    background = onPrimary,
+    tertiaryContainer = light_card_background,
+    outlineVariant = outlineVariant,
 
 )
 
