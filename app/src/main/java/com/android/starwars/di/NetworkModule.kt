@@ -1,5 +1,6 @@
 package com.android.starwars.di
 
+import com.android.starwars.data.ApiServices
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import dagger.Module
@@ -14,6 +15,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
@@ -56,6 +58,14 @@ class NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
+
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiServices {
+
+        return retrofit.create(ApiServices::class.java)
 
     }
 }
