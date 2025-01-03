@@ -71,4 +71,14 @@ dependencies {
     //lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.compose)
+    //retrofit
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.okhttp.logger)
+    implementation(libs.okhttp)
+
+    //moshi
+    implementation(libs.moshi)
+    implementation(libs.moshi.adapters)
+    ksp(libs.moshi.codegen)
 }
