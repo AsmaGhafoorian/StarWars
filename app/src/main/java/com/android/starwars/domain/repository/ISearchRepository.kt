@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISearchRepository {
 
-    fun searchCharacter(query: String) : Flow<CustomResult<SearchResponseModel>>
+   suspend fun searchCharacter(query: String) : Flow<CustomResult<SearchResponseModel>>
 }

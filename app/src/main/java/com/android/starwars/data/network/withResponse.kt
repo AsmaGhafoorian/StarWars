@@ -5,7 +5,10 @@ import retrofit2.Response
 inline fun <T> withResponse(function: () -> Response<T>): CustomResult<T> {
     return try {
         when (val response = ApiResponse.create(function.invoke())) {
-            is SuccessResponse -> CustomResult.Success(response.body)
+            is SuccessResponse -> {
+                println("aaaaaaa: " + response.body)
+                CustomResult.Success(response.body)
+            }
             is ErrorResponse -> when (response.errorCode) {
                 400 -> CustomResult.Error(Response400Exception(response.message))
                 401 -> CustomResult.Error(Response401Exception(response.message))

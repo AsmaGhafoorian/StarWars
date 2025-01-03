@@ -1,5 +1,7 @@
 package com.android.starwars.di
 
+import android.os.Build
+import com.android.starwars.BuildConfig
 import com.android.starwars.data.ApiServices
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
@@ -29,10 +31,10 @@ class NetworkModule {
 
         val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
         val clientBuilder = OkHttpClient.Builder()
-//        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             clientBuilder.addInterceptor(httpLoggingInterceptor)
-//        }
+        }
 
         clientBuilder.interceptors().add(interceptor)
         clientBuilder.connectTimeout(30L, TimeUnit.SECONDS)
@@ -42,10 +44,24 @@ class NetworkModule {
 
     }
 
+    @Provides
+    @Singleton
+    fun provideInterceptor(): Interceptor {
+
+        return Interceptor { chain ->
+            var request = chain.request()
+            val url = request.url.newBuilder()
+                .build()
+            request = request.newBuilder().url(url).build()
+            chain.proceed(request)
+        }
+
+    }
+
     @Singleton
     @Provides
     fun moshi(): Moshi = Moshi.Builder()
-        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
         .build()
 
 

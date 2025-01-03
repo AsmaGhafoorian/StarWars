@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class SearchRepositoryImp @Inject constructor(private val apiService: ApiServices): ISearchRepository {
-    override fun searchCharacter(query: String): Flow<CustomResult<SearchResponseModel>> =
+    override suspend fun searchCharacter(query: String): Flow<CustomResult<SearchResponseModel>> =
          flow {
-            emit(withResponse {apiService.searchCharacter(query)})
+            emit(withResponse{apiService.searchCharacter(query)})
         }.onStart {
             emit(CustomResult.Loading)
         }.flowOn(Dispatchers.IO)
