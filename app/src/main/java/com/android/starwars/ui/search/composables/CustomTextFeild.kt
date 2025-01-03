@@ -1,14 +1,10 @@
 package com.android.starwars.ui.search.composables
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,8 +19,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +36,7 @@ fun CostumeTextField(
     shape: Shape = RoundedCornerShape(12.dp),
     colors: TextFieldColors = TextFieldDefaults.colors().copy(
         focusedContainerColor = Color.White,
-        unfocusedContainerColor =Color.White,
+        unfocusedContainerColor = Color.White,
         unfocusedPlaceholderColor = MaterialTheme.colorScheme.inverseSurface,
         cursorColor = MaterialTheme.colorScheme.onSurface,
         disabledLabelColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -57,23 +51,23 @@ fun CostumeTextField(
                 placeholder.invoke()
             },
             leadingIcon =
-                {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = leadingIcon),
-                        contentDescription = "",
-                        tint = Color.Unspecified
-                    )
-                },
+            {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = leadingIcon),
+                    contentDescription = "",
+                    tint = Color.Unspecified
+                )
+            },
             trailingIcon =
-                {
-                    Icon(imageVector = ImageVector.vectorResource(id = trailingIcon),
-                        contentDescription = "",
-                        tint = Color.Unspecified,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .clip(shape)
-                            .clickable { onTrailingIconClick?.invoke() })
-                },
+            {
+                Icon(imageVector = ImageVector.vectorResource(id = trailingIcon),
+                    contentDescription = "",
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .clip(shape)
+                        .clickable { onTrailingIconClick?.invoke() })
+            },
             onValueChange = onValueChange,
             modifier = modifier,
             singleLine = true,

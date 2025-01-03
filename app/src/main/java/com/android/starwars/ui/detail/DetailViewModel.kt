@@ -2,8 +2,6 @@ package com.android.starwars.ui.detail
 
 import androidx.lifecycle.viewModelScope
 import com.android.starwars.data.model.DetailResponseModel
-import com.android.starwars.ui.detail.composables.FilmResponseModel
-import com.android.starwars.ui.detail.composables.Films
 import com.android.starwars.data.model.PlanetResponseModel
 import com.android.starwars.data.model.SpeciesResponseModel
 import com.android.starwars.data.model.defaultDetailModel
@@ -15,6 +13,8 @@ import com.android.starwars.domain.usecase.FilmUseCase
 import com.android.starwars.domain.usecase.PlanetUseCase
 import com.android.starwars.domain.usecase.SpeciesUseCase
 import com.android.starwars.ui.base.BaseViewModel
+import com.android.starwars.ui.detail.composables.FilmResponseModel
+import com.android.starwars.ui.detail.composables.Films
 import com.android.starwars.utils.getId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -43,6 +43,7 @@ class DetailViewModel @Inject constructor(
 
         when (event) {
             is DetailContract.Event.onBackClick -> {
+                setEffect { DetailContract.Effect.Navigation.GoBack }
             }
 
             is DetailContract.Event.getCharacterDetail -> {
@@ -58,6 +59,7 @@ class DetailViewModel @Inject constructor(
                     is CustomResult.Loading -> {
                         setState { viewState.value.copy(isLoading = true) }
                     }
+
                     is CustomResult.Error -> {
                         setState {
                             viewState.value.copy(
@@ -74,19 +76,24 @@ class DetailViewModel @Inject constructor(
                     is CustomResult.Success<*> -> {
                         setState { viewState.value.copy(detail = it.data as DetailResponseModel) }
                         val planetId = getId((it.data as DetailResponseModel).homeworld)
-                        val speciesId = getId(it.data .species[0])
+                        val speciesId = getId(it.data.species[0])
                         var filmsId = ArrayList<Int>()
                         it.data.films.map {
                             filmsId.add(getId(it))
                         }
-                        getAdditionalData(planetId = planetId, speciesId = speciesId, filmIds = filmsId)
+                        getAdditionalData(
+                            planetId = planetId,
+                            speciesId = speciesId,
+                            filmIds = filmsId
+                        )
 
                     }
                 }
             }
         }
     }
-    fun getAdditionalData(planetId: Int, speciesId: Int, filmIds: List<Int>){
+
+    fun getAdditionalData(planetId: Int, speciesId: Int, filmIds: List<Int>) {
         viewModelScope.launch {
             val planet = async { planetUseCase.invoke(id = planetId) }
             val species = async { speciesUseCase.invoke(id = speciesId) }
@@ -97,6 +104,7 @@ class DetailViewModel @Inject constructor(
                     is CustomResult.Loading -> {
                         setState { viewState.value.copy(isLoading = true) }
                     }
+
                     is CustomResult.Error -> {
                         setState {
                             viewState.value.copy(
@@ -120,6 +128,7 @@ class DetailViewModel @Inject constructor(
                     is CustomResult.Loading -> {
                         setState { viewState.value.copy(isLoading = true) }
                     }
+
                     is CustomResult.Error -> {
                         setState {
                             viewState.value.copy(
@@ -143,6 +152,7 @@ class DetailViewModel @Inject constructor(
                     is CustomResult.Loading -> {
                         setState { viewState.value.copy(isLoading = true) }
                     }
+
                     is CustomResult.Error -> {
                         setState {
                             viewState.value.copy(

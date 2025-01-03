@@ -1,12 +1,12 @@
 package com.android.starwars.ui.detail
 
 import com.android.starwars.data.model.DetailResponseModel
-import com.android.starwars.ui.detail.composables.Films
 import com.android.starwars.data.model.PlanetResponseModel
 import com.android.starwars.data.model.SpeciesResponseModel
 import com.android.starwars.ui.base.ViewEffect
 import com.android.starwars.ui.base.ViewEvent
 import com.android.starwars.ui.base.ViewState
+import com.android.starwars.ui.detail.composables.Films
 
 
 class DetailContract {
@@ -21,13 +21,14 @@ class DetailContract {
         val isError: Boolean,
         val errorMessage: String?,
         val detail: DetailResponseModel,
-        val planet : PlanetResponseModel,
+        val planet: PlanetResponseModel,
         val species: SpeciesResponseModel,
-        val films : Films
+        val films: Films
     ) : ViewState
+
     sealed class Effect : ViewEffect {
         sealed class Navigation : Effect() {
-            object ToPreviousScreen : Navigation()
+            object GoBack : Navigation()
         }
     }
 }

@@ -1,13 +1,15 @@
 package com.android.starwars.ui.search
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,7 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.starwars.R
 import com.android.starwars.data.model.Characters
 import com.android.starwars.ui.search.composables.SearchBox
-import com.android.starwars.ui.splash.SplashContract
 import com.android.starwars.utils.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -63,23 +64,52 @@ fun SearchScreen(
                 is SearchContract.Effect.Navigation.ToDetailScreen -> {
                     onNavigationRequested(SearchContract.Effect.Navigation.ToDetailScreen(it.id))
                 }
+
+                is SearchContract.Effect.Navigation.GoBack -> {
+                    onNavigationRequested(SearchContract.Effect.Navigation.GoBack)
+                }
             }
         }
     }
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(top = 30.dp, start = 24.dp, end = 24.dp)
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(top = 20.dp)
     ) {
+        Row(
+            modifier = Modifier
+                .height(60.dp)
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Icon(
+                painter = painterResource(R.drawable.ic_back),
+                contentDescription = "arrow",
+                tint = Color.Unspecified,
+                modifier = Modifier.clickable { viewModel.setEvent(SearchContract.Event.onBackClick) }
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = stringResource(R.string.search),
+                fontSize = 12.sp,
+                fontStyle = FontStyle.Normal,
+                fontWeight = FontWeight.Bold
+
+            )
+        }
         SearchBox(
             input = query,
             placeholder = stringResource(R.string.search),
             onValueChange = {
                 query = it
                 viewModel.setEvent(SearchContract.Event.search(it, true))
-            })
+            },
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
 
         data.results?.let {
             SearchContent(data = it, isLoading = isLoading,
@@ -124,7 +154,8 @@ fun SearchContent(
             }
     }
     LazyColumn(
-        state = listState
+        state = listState,
+        modifier = Modifier.padding(horizontal = 10.dp)
     ) {
         items(data) {
             Row(

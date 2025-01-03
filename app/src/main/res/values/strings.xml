@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">starwars</string>
     <string name="start">start</string>
-    <string name="search">search</string>
+    <string name="search">Search</string>
     <string name="birth">BIRTH</string>
     <string name="height">HEIGHT</string>
     <string name="language">LANGUAGE</string>

@@ -8,13 +8,11 @@ import com.android.starwars.domain.usecase.SearchCharacterUseCase
 import com.android.starwars.ui.base.BaseViewModel
 import com.android.starwars.utils.getId
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor( private val searchCharacterUseCase: SearchCharacterUseCase) :
+class SearchViewModel @Inject constructor(private val searchCharacterUseCase: SearchCharacterUseCase) :
     BaseViewModel<SearchContract.Event, SearchContract.State, SearchContract.Effect>() {
     override fun setInitialState() = SearchContract.State(
         isLoading = false,
@@ -22,31 +20,42 @@ class SearchViewModel @Inject constructor( private val searchCharacterUseCase: S
         errorMessage = "",
         searchResult = SearchResponseModel(results = emptyList())
     )
+
     override fun handleEvents(event: SearchContract.Event) {
 
         when (event) {
             is SearchContract.Event.onCharacterClick -> {
-
                 setEffect { SearchContract.Effect.Navigation.ToDetailScreen(getId(event.character.url)) }
             }
 
             is SearchContract.Event.search -> {
                 searchCharacter(query = event.query, reset = event.reset)
             }
+
+            is SearchContract.Event.onBackClick -> {
+                setEffect { SearchContract.Effect.Navigation.GoBack }
+
+            }
         }
     }
 
     fun searchCharacter(query: String, reset: Boolean) {
         viewModelScope.launch {
-            searchCharacterUseCase.search(query = query, reset = reset).collect{
+            searchCharacterUseCase.search(query = query, reset = reset).collect {
                 when (it) {
                     is CustomResult.Loading -> {
 
-                        setState{viewState.value.copy(isLoading = true)}
+                        setState { viewState.value.copy(isLoading = true) }
                     }
 
                     is CustomResult.Error -> {
-                        setState{viewState.value.copy(isLoading = false, isError = true, errorMessage = it.exception.message)}
+                        setState {
+                            viewState.value.copy(
+                                isLoading = false,
+                                isError = true,
+                                errorMessage = it.exception.message
+                            )
+                        }
                     }
 
                     is CustomResult.Empty -> {

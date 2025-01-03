@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.starwars.R
 import com.android.starwars.ui.detail.composables.FilmResponseModel
 import com.android.starwars.ui.detail.composables.Films
+import com.android.starwars.utils.rememberFlowWithLifecycle
 
 
 @Composable
@@ -49,11 +50,24 @@ fun DetailScreen(
     onNavigationRequested: (navigationEffect: DetailContract.Effect.Navigation) -> Unit,
 ) {
     val state = viewModel.viewState.collectAsStateWithLifecycle()
+    val effetct = rememberFlowWithLifecycle(viewModel.effect)
+
     val data = state.value.detail
     val species = state.value.species
     val planet = state.value.planet
     val films = state.value.films
     var selectedFilm by remember { mutableStateOf<FilmResponseModel?>(null) }
+
+    LaunchedEffect(effetct) {
+        effetct.collect {
+            when (it) {
+                is DetailContract.Effect.Navigation.GoBack -> {
+                    onNavigationRequested(DetailContract.Effect.Navigation.GoBack)
+                }
+            }
+        }
+    }
+
 
     LaunchedEffect(Unit) {
         viewModel.setEvent(DetailContract.Event.getCharacterDetail(id = id))
@@ -68,6 +82,7 @@ fun DetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(top = 20.dp)
     ) {
         Row(
             modifier = Modifier
@@ -81,6 +96,7 @@ fun DetailScreen(
                 painter = painterResource(R.drawable.ic_back),
                 contentDescription = "arrow",
                 tint = Color.Unspecified,
+                modifier = Modifier.clickable { viewModel.setEvent(DetailContract.Event.onBackClick) }
             )
             Icon(
                 painter = painterResource(R.drawable.ic_favorite),
@@ -247,7 +263,9 @@ fun DetailScreen(
                     fontSize = 12.sp,
                     fontStyle = FontStyle.Normal,
                     fontWeight = FontWeight.Normal,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp)
                 )
             }
 

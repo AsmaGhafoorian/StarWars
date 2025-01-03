@@ -58,14 +58,14 @@ fun SplashScreen(
         )
         Column(
             modifier = Modifier
-                .padding(bottom = 25.dp),
+                .padding(bottom = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 painter = painterResource(R.drawable.starwars),
                 contentDescription = "splash",
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
                 modifier = Modifier
                     .width(250.dp)

@@ -24,7 +24,7 @@ private val LightColorScheme = lightColorScheme(
     tertiaryContainer = light_card_background,
     outlineVariant = outlineVariant,
 
-)
+    )
 
 @Composable
 fun StarWarsTheme(

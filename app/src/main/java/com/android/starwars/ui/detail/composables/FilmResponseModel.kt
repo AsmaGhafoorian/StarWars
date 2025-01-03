@@ -6,13 +6,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class FilmResponseModel (
-    @Json(name = "opening_crawl") val openingCrawl : String,
-    @Json(name = "title") val title : String
+data class FilmResponseModel(
+    @Json(name = "opening_crawl") val openingCrawl: String,
+    @Json(name = "title") val title: String
 )
 
 @Stable
 @Immutable
 data class Films(
-    val films : List<FilmResponseModel>
+    val films: List<FilmResponseModel>
 )

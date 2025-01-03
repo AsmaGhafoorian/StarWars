@@ -5,14 +5,16 @@ import com.android.starwars.data.model.SearchResponseModel
 import com.android.starwars.ui.base.ViewEffect
 import com.android.starwars.ui.base.ViewEvent
 import com.android.starwars.ui.base.ViewState
-import kotlinx.coroutines.flow.Flow
+import com.android.starwars.ui.detail.DetailContract.Event
 
 
 class SearchContract {
 
     sealed class Event : ViewEvent {
         data class onCharacterClick(val character: Characters) : Event()
-        data class search(val query : String, val reset: Boolean) : Event()
+        data class search(val query: String, val reset: Boolean) : Event()
+        object onBackClick : Event()
+
     }
 
     data class State(
@@ -25,6 +27,7 @@ class SearchContract {
     sealed class Effect : ViewEffect {
         sealed class Navigation : Effect() {
             data class ToDetailScreen(val id: Int) : Navigation()
+            object GoBack : Navigation()
         }
     }
 }
